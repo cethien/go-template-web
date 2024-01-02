@@ -3,10 +3,12 @@
 		"prepare": "husky install",
 		"commitlint": "commitlint --edit ${1}",
 		"format": "prettier --write ./**/*.{js,ts,css,json,md}",
-		"build:js": "bun build --target=browser views/layouts/index.ts --outfile=public/main.min.js --minify",
-		"build:css": "tailwindcss -i views/layouts/styles.css -o ./public/main.min.css --minify",
-		"dev:js": "bun build --target=browser views/layouts/index.ts --outfile=public/main.js --watch",
-		"dev:css": "tailwindcss -i views/layouts/styles.css -o ./public/main.css --watch"
+		"build:js": "bun build --target=browser src/shared/index.ts --outfile=public/main.min.js --minify",
+		"build:css": "tailwindcss -i src/shared/styles.css -o ./public/main.min.css --minify",
+		"build": "bun run build:js && bun run build:css",
+		"dev:js": "bun build --target=browser src/shared/index.ts --outfile=public/main.js --watch",
+		"dev:css": "tailwindcss -i src/shared/styles.css -o ./public/main.css --watch",
+		"dev": "concurrently -rk \"bun run dev:js\" \"bun run dev:css\""
 	},
 	"dependencies": {
 		"@alpinejs/persist": "^3.13.3",

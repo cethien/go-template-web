@@ -4,8 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/cethien/go-template-web/config"
-	"github.com/cethien/go-template-web/domain"
+	"github.com/cethien/go-template-web/src/config"
+	"github.com/cethien/go-template-web/src/domain"
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
@@ -13,12 +13,12 @@ import (
 )
 
 func NewStore() (*Store, error) {
-	db, err := sql.Open("postgres", config.Global.DbUrl)
+	db, err := sql.Open("postgres", config.DbUrl)
 	if err != nil {
 		return nil, fmt.Errorf("unable to open database: %v", err.Error())
 	}
 
-	m, err := migrate.New(config.Global.DbMigrationsUrl, config.Global.DbUrl)
+	m, err := migrate.New(config.DbMigrationsUrl, config.DbUrl)
 	if err != nil {
 		return nil, fmt.Errorf("unable to create new db migrator: %v", err.Error())
 	}

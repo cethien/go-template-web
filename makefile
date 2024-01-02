@@ -7,9 +7,7 @@ default: clean format
 .PHONY: default
 
 clean:
-	@rm -rf dist/ node_modules/ \
-	public/*.js public/*.css \
-	views/**/*_templ.go && \
+	@rm -rf dist/ node_modules/ public/*.js public/*.css views/**/*_templ.go && \
 	templ generate && \
 	go mod tidy && \
 	bun install
@@ -29,11 +27,10 @@ format:
 	bun run format
 .PHONY: format
 
-build:
+build: clean
 	@templ generate && \
 	go build -o ./dist/app ./cmd/app/ && \
-	bun run build:js && \
-	bun run build:css
+	bun run build
 .PHONY: build
 
 docker:
@@ -43,11 +40,10 @@ docker:
 dev: export APP_ENV=development
 dev: export PORT=9876
 dev:
-	@bun concurrently -rk \
-	"bun run dev:js" \
-	"bun run dev:css" \
-	"templ generate -watch" \
-	"wgo run ./cmd/app/main.go"
+	@(\
+	templ generate -watch & \
+	wgo run ./src/main.go & \
+	bun run dev)
 .PHONY: dev
 
 compose-up:

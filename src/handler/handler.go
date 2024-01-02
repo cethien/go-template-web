@@ -5,9 +5,9 @@ import (
 	"net/http"
 
 	"github.com/a-h/templ"
-	"github.com/cethien/go-template-web/postgres"
-	"github.com/cethien/go-template-web/views/about"
-	"github.com/cethien/go-template-web/views/home"
+	"github.com/cethien/go-template-web/src/general"
+	"github.com/cethien/go-template-web/src/postgres"
+
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	slogchi "github.com/samber/slog-chi"
@@ -40,9 +40,9 @@ type Handler struct {
 }
 
 func (h *Handler) RenderHomePage() http.HandlerFunc {
-	return templ.Handler(home.Page()).ServeHTTP
+	return templ.Handler(general.Index()).ServeHTTP
 }
 
 func (h *Handler) RenderAboutPage() http.HandlerFunc {
-	return templ.Handler(about.Page()).ServeHTTP
+	return templ.Handler(general.About()).ServeHTTP
 }
